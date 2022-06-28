@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "msdf",
+    "msdf-sys",
+]

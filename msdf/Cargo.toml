@@ -1,0 +1,20 @@
+[package]
+name = "msdf"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/penple/msdf-rs/"
+license = "MIT"
+keywords = ["sdf", "font", "text", "gamedev", "graphics"]
+categories = ["graphics", "rendering::data-formats"]
+description = "Safe msdfgen bindings for Rust"
+exclude = [
+    "test_resources/*",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+msdf-sys = { version = "0.1.0", path = "../msdf-sys" }
+image = "0.24.2"
+mint = "0.5.9"
+ttf-parser = "0.15.2"
