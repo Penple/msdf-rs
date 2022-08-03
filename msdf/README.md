@@ -1,11 +1,17 @@
 # msdf
 
+[![Licence](https://img.shields.io/github/license/Penple/msdf-rs?color=%23537aed)](https://github.com/Penple/msdf-rs/blob/main/LICENSE)
+[![crates.io](https://img.shields.io/crates/v/msdf)](https://crates.io/crates/msdf)
+[![Documentation](https://img.shields.io/docsrs/msdf)](https://docs.rs/msdf/latest/msdf/)
+
 Rust bindings for [msdfgen](https://github.com/Chlumsky/msdfgen).
 This crate attempts to bind msdfgen in a safe and idiomatic way.
 Unsafe bindings provided by [msdf-sys](https://crates.io/crates/msdf-sys).
 
-# Examples
-## Generate SDFs
+## Examples
+
+### Generate SDFs
+
 ```rust
 // Load a font from ttf data.
 let face: Face;
@@ -34,7 +40,9 @@ let mtsdf = colored_shape.generate_mtsdf(32, 32, 10.0, &projection, &msdf_config
 // let image: DynamicImage = DynamicImage::from(msdf.to_image());
 // image.into_rgba8().save("mysdf.png").unwrap();
 ```
-## Render SDFs to images
+
+### Render SDFs to images
+
 ```rust
 // Load MSDF from an image::Rgb32FImage.
 let msdf = MSDF::from_image(image, 10.0, 0.5);
