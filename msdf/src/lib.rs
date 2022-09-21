@@ -15,7 +15,8 @@
 //! # use msdf::SDFTrait;
 //! #
 //! # fn main() {
-//! # use msdf::GlyphLoader;
+//! # use mint::Vector2;
+//! use msdf::{GlyphLoader, Projection};
 //! # let path = env::current_dir()
 //! #     .unwrap()
 //! #     .join("test_resources")
@@ -41,18 +42,21 @@
 //! // Not a required step for SDF and Psuedo-SDF generation. Other coloring options exist.
 //! let colored_shape = shape.color_edges_simple(3.0);
 //!
-//! // Using default projection.
-//! let projection = Default::default();
+//! // Project glyph down by a factor of 64x.
+//! let projection = Projection {
+//!     scale: Vector2 { x: 1.0 / 64.0, y: 1.0 / 64.0 },
+//!     translation: Vector2 { x: 0.0, y: 0.0 },
+//! };
 //!
 //! // Using default configuration.
 //! let sdf_config = Default::default();
 //! let msdf_config = Default::default();
 //!
 //! // Generate all types of SDF. Plain SDFs and Psuedo-SDFs do not require edge coloring.
-//! let sdf   = colored_shape.generate_sdf(32, 32, 10.0, &projection, &sdf_config);
-//! let psdf  = colored_shape.generate_psuedo_sdf(32, 32, 10.0, &projection, &sdf_config);
-//! let msdf  = colored_shape.generate_msdf(32, 32, 10.0, &projection, &msdf_config);
-//! let mtsdf = colored_shape.generate_mtsdf(32, 32, 10.0, &projection, &msdf_config);
+//! let sdf   = colored_shape.generate_sdf(32, 32, 10.0 * 64.0, &projection, &sdf_config);
+//! let psdf  = colored_shape.generate_psuedo_sdf(32, 32, 10.0 * 64.0, &projection, &sdf_config);
+//! let msdf  = colored_shape.generate_msdf(32, 32, 10.0 * 64.0, &projection, &msdf_config);
+//! let mtsdf = colored_shape.generate_mtsdf(32, 32, 10.0 * 64.0, &projection, &msdf_config);
 //!
 //! // Do something with these SDFs.
 //! // let image: DynamicImage = DynamicImage::from(msdf.to_image());

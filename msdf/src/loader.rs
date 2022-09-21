@@ -8,8 +8,8 @@ use ttf_parser::{Face, GlyphId, OutlineBuilder};
 
 fn point_from_font_coords(x: f32, y: f32) -> msdfgen_Point2 {
     msdfgen_Point2 {
-        x: x as f64 / 64.0,
-        y: y as f64 / 64.0,
+        x: x as f64,
+        y: y as f64,
     }
 }
 

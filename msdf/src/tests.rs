@@ -1,9 +1,9 @@
 use crate::{GlyphLoader, Projection, SDFTrait, Shape, MSDF, MTSDF, SDF};
 use image::DynamicImage;
 use std::default::Default;
+use std::env;
 use std::fs::File;
 use std::io::{BufReader, Read};
-use std::env;
 use ttf_parser::Face;
 
 use crate::test_helpers::compare_images;
@@ -28,11 +28,14 @@ fn with_glyph<F: FnOnce(Shape, Projection)>(glyph: char, size: u32, callback: F)
 
     let bb = face.glyph_bounding_box(glyph_index).unwrap();
 
-    let scale = Vector2 { x: 1.0, y: 1.0 };
+    let scale = Vector2 {
+        x: 1.0 / 64.0,
+        y: 1.0 / 64.0,
+    };
     let translation = Vector2 {
         // try to come up with a decent fit
-        x: (size as f64 - (bb.width() as f64 / 64.0)) / 2.0 - (bb.x_min as f64 / 64.0),
-        y: (size as f64 - (bb.height() as f64 / 64.0)) / 2.0 - (bb.y_min as f64 / 64.0),
+        x: (size as f64 * 64.0 - (bb.width() as f64)) / 2.0 - (bb.x_min as f64),
+        y: (size as f64 * 64.0 - (bb.height() as f64)) / 2.0 - (bb.y_min as f64),
     };
 
     let projection = Projection { scale, translation };
@@ -47,7 +50,7 @@ fn can_generate_sdf() {
     with_glyph('A', 32, |shape, projection| {
         let shape = shape.color_edges_simple(3.0);
 
-        let sdf = shape.generate_sdf(32, 32, 10.0, &projection, &Default::default());
+        let sdf = shape.generate_sdf(32, 32, 10.0 * 64.0, &projection, &Default::default());
         let sdf: DynamicImage = DynamicImage::from(sdf.to_image());
         let sdf = sdf.into_rgba8();
 
@@ -60,7 +63,7 @@ fn can_generate_psdf() {
     with_glyph('B', 32, |shape, projection| {
         let shape = shape.color_edges_simple(3.0);
 
-        let sdf = shape.generate_psuedo_sdf(32, 32, 10.0, &projection, &Default::default());
+        let sdf = shape.generate_psuedo_sdf(32, 32, 10.0 * 64.0, &projection, &Default::default());
         let sdf: DynamicImage = DynamicImage::from(sdf.to_image());
         let sdf = sdf.into_rgba8();
 
@@ -73,7 +76,7 @@ fn can_generate_msdf() {
     with_glyph('C', 32, |shape, projection| {
         let shape = shape.color_edges_simple(3.0);
 
-        let sdf = shape.generate_msdf(32, 32, 10.0, &projection, &Default::default());
+        let sdf = shape.generate_msdf(32, 32, 10.0 * 64.0, &projection, &Default::default());
         let sdf: DynamicImage = DynamicImage::from(sdf.to_image());
         let sdf = sdf.into_rgba8();
 
@@ -86,7 +89,7 @@ fn can_generate_mtsdf() {
     with_glyph('D', 32, |shape, projection| {
         let shape = shape.color_edges_simple(3.0);
 
-        let sdf = shape.generate_mtsdf(32, 32, 10.0, &projection, &Default::default());
+        let sdf = shape.generate_mtsdf(32, 32, 10.0 * 64.0, &projection, &Default::default());
         let sdf: DynamicImage = DynamicImage::from(sdf.to_image());
         let sdf = sdf.into_rgba8();
 
@@ -100,11 +103,17 @@ fn can_project_msdf() {
         let shape = shape.color_edges_simple(3.0);
 
         let projection = Projection {
-            scale: Vector2 { x: 1.5, y: 0.5 },
-            translation: Vector2 { x: 4.0, y: 4.0 },
+            scale: Vector2 {
+                x: 1.5 / 64.0,
+                y: 0.5 / 64.0,
+            },
+            translation: Vector2 {
+                x: 4.0 * 64.0,
+                y: 4.0 * 64.0,
+            },
         };
 
-        let sdf = shape.generate_msdf(32, 32, 10.0, &projection, &Default::default());
+        let sdf = shape.generate_msdf(32, 32, 10.0 * 64.0, &projection, &Default::default());
         let sdf: DynamicImage = DynamicImage::from(sdf.to_image());
         let sdf = sdf.into_rgba8();
 
@@ -117,7 +126,7 @@ fn can_generate_unicode() {
     with_glyph('ç', 32, |shape, projection| {
         let shape = shape.color_edges_simple(3.0);
 
-        let sdf = shape.generate_msdf(32, 32, 10.0, &projection, &Default::default());
+        let sdf = shape.generate_msdf(32, 32, 10.0 * 64.0, &projection, &Default::default());
         let sdf: DynamicImage = DynamicImage::from(sdf.to_image());
         let sdf = sdf.into_rgba8();
 
