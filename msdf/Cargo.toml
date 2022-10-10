@@ -15,6 +15,6 @@ exclude = [
 
 [dependencies]
 msdf-sys = { version = "0.1.0", path = "../msdf-sys" }
-image = "0.24.2"
+image = { version = "0.24.2", default-features = false }
 mint = "0.5.9"
 ttf-parser = "0.15.2"
