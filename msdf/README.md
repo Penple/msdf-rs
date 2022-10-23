@@ -8,6 +8,10 @@ Rust bindings for [msdfgen](https://github.com/Chlumsky/msdfgen).
 This crate attempts to bind msdfgen in a safe and idiomatic way.
 Unsafe bindings provided by [msdf-sys](https://crates.io/crates/msdf-sys).
 
+## Building
+
+In order to build [msdf-sys](https://crates.io/crates/msdf-sys) on Linux, Clang must be installed.
+
 ## Examples
 
 ### Generate SDFs
