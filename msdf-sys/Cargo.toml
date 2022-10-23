@@ -17,9 +17,12 @@ exclude = [
 
 [build-dependencies]
 cmake = "0.1.48"
-bindgen = "0.60.1"
+bindgen = { version = "0.60.1", default-features=false, features=["logging", "runtime", "which-rustfmt"], optional=true }
 fs_extra = "1.2.0"
 
 [dev-dependencies]
 ttf-parser = "0.15.2"
-image = "0.24.2"
+image = { version = "0.24.2", default-features=false }
+
+[features]
+update-bindings = ["bindgen"]

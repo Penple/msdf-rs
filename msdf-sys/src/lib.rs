@@ -4,8 +4,11 @@
 
 #[allow(clippy::all)]
 mod sys {
-    // to make clippy happy
+    #[cfg(feature = "bindgen")]
     include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+
+    #[cfg(not(feature = "bindgen"))]
+    include!(concat!("bindings/", env!("MSDF_BINDINGS")));
 }
 pub use sys::*;
 
